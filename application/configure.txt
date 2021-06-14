@@ -1,0 +1,325 @@
+1. klik New pada homepage -> save empty table dan dapat id group job
+2. onchange pada halaman group job aksi nya update database dengan id group job tersebut
+3. jika klik cancel, ajax request ambiil database dengan dengan id yang disimpan, jika ada isinya konfrimasi pemnbatalan, jika kosong langsung hapus data dan tutup modal
+4.
+
+
+input field
+
+1. date_input   =   class->dateInput
+                    name->dateInput
+2. Title        =   class, name->jobTitle
+3. crew         =   class, name->idSelectedCrew
+4. leader       =   class, name->idSelectedLeader
+5. code         =   class, name->codeSubjob
+6. subjob       =   class, name->subjobField1
+7. purpose      =   class, name->purposeSubjob
+8. deadlineDate =   class, name->deadlineDateField
+9. remind       =   class, name->idSelectedRemind
+10. assessor    =   name->targetIdAssessor
+11. coadmin     =   class, name->targetIdCoadmin
+12. id Job Group    =   class, name->idJobGroup
+12. coadmin         =   id, name->coadminField
+
+event
+- onchange
+1. saveTitle
+2. saveCoadmin
+
+tr class=targetCoadmin
+
+
+<!------------------------- sample data -------------------------->
+
+null field: deadlineDate, deadlineHour, remind, priority, assessor, image, note, purpose
+condition: approval only admin
+-- assessor -> [""]
+-- coadmin -> 1
+-- code -> didit1
+-- crew -> ["4", "5"]
+-- deadlineDate -> null
+-- deadlineHour -> ["09:00"]
+-- idJob -> 1
+-- idSubjob -> 1
+-- leader -> ["4"]
+-- priority -> null
+-- purpose -> [""]
+-- remind -> null
+-- subjob -> ["beli kamera"]
+-- title -> beli kamera
+
+null field: deadlineDate, deadlineHour, remind, priority, assessor, image, note, purpose
+condition: approval only coadmin
+-- assessor -> [""]
+-- coadmin -> 2
+-- code -> didit1
+-- crew -> ["4", "5"]
+-- deadlineDate -> null
+-- deadlineHour -> ["09:00"]
+-- idJob -> 2
+-- idSubjob -> 2
+-- leader -> ["4"]
+-- priority -> null
+-- purpose -> [""]
+-- remind -> null
+-- subjob -> ["beli kamera"]
+-- title -> beli kamera
+
+null field: image, note
+condition: approval coadmin then admin, priority is 1, 2 subjob added
+-- assessor -> ["16", "16"]
+-- coadmin -> 2,1
+-- code -> didit1
+-- crew -> ["4", "5"]
+-- deadlineDate -> ["2021-02-16", "2021-02-16"]
+-- deadlineHour -> ["09:00", "09:00"]
+-- idJob -> 4
+-- idSubjob -> 4
+-- leader -> ["4"]
+-- priority -> ["1", "1"]
+-- purpose -> ["asdf", "asdff"]
+-- remind -> ["17,18", "15"]
+-- subjob -> ["beli kamera", "addddd"]
+-- title -> beli kamera
+
+<!------------------------- sample data -------------------------->
+
+
+
+
+<!------------------------- kondisi -------------------------->
+
+1. input job oleh admin, memilih co admin dan disimpan di database JOB serta subjob
+2. Saat klik open subjob, input null value pada database subjob
+
+<!------------------------- kondisi -------------------------->
+
+
+
+<!------------------------- rules of input new job -------------------------->
+
+Must have values:
+- title
+- coadmin
+- crew
+- leader
+- subjob
+
+<!------------------------- rules of input new job -------------------------->
+
+
+
+
+
+<!------------------------- flow (revision and completed) -------------------------->
+
+1. Open modal Job -> open from right to left ✓
+2. Save blank template to database job ✓
+3. Change symbol selection for non multiple choice, or for coadmin and leader ✓
+4. Disabled list crew who was selected in coadmin ⨯
+5. Save all onchange input or select in job modal ✓
+6. Open modal subjob with click info button ✓
+7. change background of deadline time  ✓
+8. Badge's color on Admin page depanding by priority ✓
+
+<!------------------------- flow (revision and completed) -------------------------->
+
+subjobTitle ->class
+actionTitle ->class
+dotSpan ->id
+actionGroup ->class
+actionDone ->class
+
+
+STATUS SUBJOB
+1 -> active for user
+2 -> waiting for user -> active for assessor
+3 -> waiting for user -> waiting for assessor -> active for coadmin
+4 -> waiting for user -> waiting for assessor -> waiting for coadmin -> active for admin
+5 -> failed and active for user -> waiting for assessor, coadmin, admin,
+63 -> failed for user because overdue deadline and active for assessor
+62 -> failed for user because overdue deadline and active for coadmin
+61 -> failed for user because overdue deadline and active for admin
+
+6 -> request overdue from user to admin 
+8 -> ovedue deadline
+
+status 6, waiting approval deadline from admin
+
+
+ROLE JOB GROUP
+1 -> active
+13 -> deactivate
+0 -> done
+
+
+
+<!------------------------- revision field -------------------------->
+
+note -> class,name->notes
+deadlineDate -> class,name->deadlineDateFieldRevise
+hour -> class,name->inputHourRevise
+minute -> class,name->inputMinutesRevise
+
+img and desc -> save on onchange
+
+<!------------------------- revision field -------------------------->
+
+
+subjobTitle
+titleTitle
+deadlineTitle
+actionTitle
+
+ul.collapseReportDone 2
+div.collapseHeaderReportDone 3
+.card.cardReportDone 1
+.iconReportDone
+.reportDoneTitle
+.arrowReportDone
+.reportDoneArrow
+.collapseDetailReportDone
+.targetImgReportDone
+form#uploadFileReportDone
+input.fileUploadRerportDone
+
+.notesReportDone
+.idJobGroupReportDone
+.idSubjobReportDone
+
+onclick reportasDone
+
+
+
+collapseRequestOverdue
+collapseHeaderRequestOverdue
+cardRevise
+
+collapseReportHistoryUser
+spanReportHistoryUser
+arrowReportHistoryUser
+collapseBodyReportHistoryUser
+targetReportHistoryUser
+collapseOverduesHistoryUser
+spanOverduesHistoryUser
+arrowOverduesHistoryUser
+collpaseBodyOverduesHistoryUser
+targetOverduesHistoryUser
+
+
+<!------------------------- get data index flow -------------------------->
+
+if your id inside a crewlist, assessor or coadmin then your list will be show up
+
+get the data from database:
+- deeadline terakhir, status, role, title, subjob , idSubjob, idJobgroup, approval, is_priority
+$queryMaster = "SELECT deadline, title, subjob, subjob.id AS idSubjob, job.id AS idJob, approval, is_priority
+            FROM subjob
+            INNER JOIN job
+            ON subjob.id_title = job.id
+            WHERE JSON_CONTAINS(crew, JSON_QUOTES('$id'), '$')
+            OR subjob.assessor = $id
+            OR job.coadmin = $id
+            OR job.admin = $id";
+$db =
+
+loop result and get role
+if9
+foreach($result->result() as $row) {
+    $approval = json_decode($row->approval, true);
+}
+
+$admin = $approval[0]['admin'];
+$coadmin = $approval[0]['coadmin'];
+$assessor = $approval[0]['co-assessor'];
+
+if($id == $admin) {
+    $queryActive = "SELECT id FROM subjob WHERE status = 4 OR status = 63";
+    $queryWaiting = "SELECT id FROM subjob WHERE status <= 4 OR status = 61 OR status = 62;
+    $queryFailed = "SELECT id FROM subjob WHERE status = 5";
+    $isAdmin = 1;
+    $isCoadmin = 0;
+    $isAssessor = 0;
+} else if ($id == $coadmin) {
+    $queryActive = "SELECT id FROM subjob WHERE status = 3 OR status = 63";
+    $queryWaiting = "SELECT id FROM subjob WHERE status <= 3 OR status = 4 OR status = 61 OR status = 62;
+    $queryFailed = "SELECT id FROM subjob WHERE status = 5";
+    $isCoadmin = 1;
+    $isAdmin = 0;
+    $isAssessor = 0;
+} else if ($id == $assessor) {
+    $queryActive = "SELECT id FROM subjob WHERE status = 4 OR status = 63";
+    $queryWaiting = "SELECT id FROM subjob WHERE status <= 4 OR status = 61 OR status = 62;
+    $queryFailed = "SELECT id FROM subjob WHERE status = 5";
+    $isAssessor = 1;
+    $isAdmin = 0;
+    $isCoadmin = 0;
+}
+
+
+
+<!------------------------- get data index flow -------------------------->
+
+saat job baru di posting oleh admin
+1. tampilan di admin border, jika priority maka kuning, jika tidak maka biru
+2. tampilan di crew fill, kuning jika priority, biru jika active
+3. tampilan assessor border sesuai priority
+4. tampilan coadmin border sesuai priority
+
+saat job di cancel oleh assessor
+1. tampilan crew fill merah
+2. tampilan yang lain masih sama
+
+
+
+<!------------------------- get history -------------------------->
+
+if($reported == '' && $tatus == 1) {
+    //none reported
+    //no overdue
+}
+
+<!------------------------- get history -------------------------->
+
+
+
+jika report 1 dan deadline hanya ada 1 maka masih menunggu koreksi
+jika report 1 dan deadline > 1 maka ada revisi
+
+
+<!------------------------- new concept -------------------------->
+
+collapsible subjob di buka
+
+jika klik add maka akan muncul td baru dengan form input
+<td>1</td>
+<td>input field</td>
+<td>no deadline</td>
+
+<!------------------------- new concept -------------------------->
+
+
+
+admin
+status 1 - 3, 5, 62 - 63 waiting
+status 4, 61 active
+
+coadmin
+status 1 - 2, 5, 61, 63 waiting
+status 3, 62 active
+
+assessor
+status 1, 3, 5, 6 - 62 waiting
+status 2, 63 active
+
+user
+status 1, 5 active
+status 2 - 5 active
+status 63
+
+
+buat kondisi
+-> jika deadline tidak ada, button request deadline di sembunyikan ok
+-> ketika request deadline baru diwajibkan mengisi gambar ok
+-> disabled button request overdue ketika status belum overdue ok
+-> limit tampilan view job pakai continous scroll

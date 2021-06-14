@@ -1,0 +1,40 @@
+How to use:
+
+Pemanggilan fungsi :
+- slModal(title, message, icon, option)
+
+
+Option:
+1. buttons -> bool / object
+2. timer -> int
+3. onclick -> string
+4. params -> array
+5. function -> string
+
+buttons:
+1. false / true
+2. bentuk object seperti berikut:
+    - confirmation: true,
+    - value: 'confirm',
+    - onclick: 'delete',
+    - params: param,
+    - function: 'deletingSpan'
+3. value berisi:
+  - confirm
+  - cancel
+4. onclick berisi:
+  - delete
+  - logout
+
+onclick:
+1. delete -> function yang dibuat adalah deletingData(param[0], param[1], ....)
+2. logout -> function yang dibuat adalah doConfirmation();
+
+param :
+1. deklarasikan menjadi array dahulu
+2. buat array
+3. contoh nya : var param = [];
+                param[0] = idSubjob;
+                param[1] = idDelete;
+
+Jika onlick true, makan wajib membuat functon seperti yang terteran pada penjelasan onclick diatas

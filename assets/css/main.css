@@ -1,0 +1,31 @@
+@font-face {
+	/* font-family: raleway;
+	src: url("../assets/font/Raleway.ttf"); */
+
+	font-family: condensed;
+	src: url("../assets/font/condensed-Bold.ttf");
+}
+
+.card-autocomplete {
+	background-color: rgba(199, 188, 188, 0.2);
+	margin-top: 1px;
+	border: 1px grey solid;
+}
+
+.spanDashboard {
+	text-transform: uppercase;
+	background: linear-gradient(to left, #30cfd0 20%, #17b0d6 90%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size: 4em;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.dropdown-home:hover {
+	background-color: black;
+	color: white;
+}
+
+.hiddenRow {
+	padding: 0 !important;
+}

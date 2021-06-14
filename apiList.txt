@@ -1,0 +1,44 @@
+Login / Auth :
+ - https://job.ansena-sa.com/jzl/api/api/index
+
+
+Homepage
+(job table)
+ - https://job.ansena-sa.com/jzl/api/api/getListIndex/(idUser)
+
+(archive table)
+ - https://job.ansena-sa.com/jzl/api/api/getArchive/(idUser)
+
+
+View Job
+ - https://job.ansena-sa.com/jzl/api/api/detailSubjob/(idSubjob)
+
+
+List Crew with infinite scroll
+ - https://job.ansena-sa.com/jzl/api/api/getListUser/(page)
+
+Save Template Group Job
+ - https://job.ansena-sa.com/jzl/api/api/saveTemplateGroupJob/:userId
+  Parameter yang diterima backend :
+   * userId
+
+  Parameter yang di kirim (return) :
+  * jobId
+
+  Save Template Subjob
+   - https://job.ansena-sa.com/jzl/api/api/saveTemplateSubjob/:jobId/:userCode
+    Parameter yang diterima backend :
+     * jobId
+     * userCode
+
+    Parameter yang di kirim (return) :
+    * subjobId
+    * userCode
+
+  Delete Job Group dan Subjob
+   - https://job.ansena-sa.com/jzl/api/api/deleteJob/:jobId
+   Parameter yang di terima backend :
+      * jobId
+
+   Parameter yang dikirim :
+      * message
